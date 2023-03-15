@@ -41,15 +41,16 @@ export const useConverterStore = defineStore('counter', () => {
 const createEmails = domain =>
   usernames.value.split(",").reduce((pv, cv, i) => {
     pv = i === 0 ? `${cv}@${domain}` : `${pv}, ${cv}@${domain}`
-    return pv
+    return pv.replace(" ", '')
   }, '')
-
 
   const convert = async domains => {
     emails.value = []
     const e = domains.split(',').reduce((pv, cv) => {
       const domain = cleanLink(cv)
-      pv.push(createEmails(domain))
+      createEmails(domain.replace(" ", '')).split(",").forEach((v)=>{
+        pv.push(v)
+      })
       return pv
     }, [])
   
